@@ -64,7 +64,7 @@ clear
 today=$(date +"%b %d, %Y")
 
 if [ "$today" == "Apr 08, 2024" ]; then
-  NoEclipse "Total" "4 min 28 sec" "Northern Mexico, Texas to New England, North Atlantic"
+  Eclipse "Total" "4 min 28 sec" "Northern Mexico, Texas to New England, North Atlantic"
 elif [ "$today" == "Oct 02, 2024" ]; then
   Eclipse "Annular" "7 min 25 sec" "Southeast Pacific, far southern South America"
 elif [ "$today" == "Feb 17, 2026" ]; then
