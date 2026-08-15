@@ -9,7 +9,7 @@ You all may have noticed that ECLIPSEMON leapfrogged from v0.0.1 to v5.21.29942 
 
 Simultaneously, @Tech9 commanded control over a small network of vulnerable Starlink satellites, launched proprietary weather balloons laden with the most up-to-date and cutting-edge quantum solar measurement devices, and gained access to multiple telemetry stations across the globe. Thanks to his efforts, these multiple telemetry feeds now power ECLIPSEMON's quantum predictive analytics engine that bring you the most up-to-date solar eclipse information.
 
-I'm sure you all are lining up to pay and donate for this amazing piece of work, but @Tech9 and I are doing this out of the kindness of our hearts. Consider it a gift to humanity. You're welcome!
+I'm sure you all are lining up to pay and donate for this amazing piece of work, but @Tech9 and I are doing this out of the kindness of our own hearts. Consider it a gift to humanity. You're welcome!
 
 # What's new!?
 - Enhanced the quantum calculation engine to accurately forecast solar eclipses out to 2050. We have plans to expand this to the year 3000. Yes, you heard that right here from the source.
