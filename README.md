@@ -1,4 +1,5 @@
-# ECLIPSEMON
+# ECLIPSEMON v0.0.2
 Asus-Merlin Solar Eclipse Prediction Script
 
-![image](https://github.com/ViktorJp/ECLIPSEMON/assets/97465574/8a4794e8-c3ca-4f61-8248-6f9f1afda8bf)
+<img width="687" height="337" alt="image" src="https://github.com/user-attachments/assets/7537912d-ca6a-471d-995c-01c114e5f952" />
+
