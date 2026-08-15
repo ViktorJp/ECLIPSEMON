@@ -1,13 +1,13 @@
-# ECLIPSEMON v0.0.2
+# ECLIPSEMON v5.21.29942
 Asus-Merlin Solar Eclipse Prediction Script
 
 On Eclipse days:
 
-<img width="687" height="337" alt="image" src="https://github.com/user-attachments/assets/7537912d-ca6a-471d-995c-01c114e5f952" />
+<img width="1089" height="713" alt="image" src="https://github.com/user-attachments/assets/c318afff-48b6-4eb7-8e33-f1ef9f12a11e" />
 
 On any other normal regular day:
 
-<img width="739" height="342" alt="image" src="https://github.com/user-attachments/assets/a6123683-f650-4da9-b2c6-7a4aa2d1dccb" />
+<img width="1088" height="758" alt="image" src="https://github.com/user-attachments/assets/2e60fe9a-c7d1-4da8-becf-8cb75a63f97c" />
 
 ---
 
