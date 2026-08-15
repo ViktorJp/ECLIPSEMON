@@ -2,9 +2,11 @@
 Asus-Merlin Solar Eclipse Prediction Script
 
 On Eclipse days:
+
 <img width="687" height="337" alt="image" src="https://github.com/user-attachments/assets/7537912d-ca6a-471d-995c-01c114e5f952" />
 
 On any other normal regular day:
+
 <img width="739" height="342" alt="image" src="https://github.com/user-attachments/assets/a6123683-f650-4da9-b2c6-7a4aa2d1dccb" />
 
 ---
