@@ -2,8 +2,8 @@ name: Track Release Downloads
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:      # Allows manual "Run workflow" button in UI
 
 jobs:
   snapshot-metrics:
@@ -12,10 +12,8 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout Repository (main branch)
+      - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -25,30 +23,14 @@ jobs:
       - name: Install Dependencies
         run: pip install requests pandas
 
-      - name: Fetch Existing Metrics Data
-        run: |
-          # Pull down existing metrics CSV if the metrics branch already has data
-          mkdir -p metrics
-          git checkout origin/metrics -- metrics/release_downloads.csv 2>/dev/null || true
-
-      - name: Run Tracker
+      - name: Run Tracker Script
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python track_downloads.py
 
-      - name: Push Metrics to Metrics Branch
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Temporarily switch to metrics branch, apply the new CSV, and push
-          git checkout metrics
-          git add metrics/release_downloads.csv
-          
-          if ! git diff-index --quiet HEAD; then
-            git commit -m "Update download counts [skip ci]"
-            git push origin metrics
-          else
-            echo "No changes in download counts."
-          fi
+      - name: Commit and Push Updates
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update release download metrics [skip ci]"
+          file_pattern: "metrics/release_downloads.csv"
