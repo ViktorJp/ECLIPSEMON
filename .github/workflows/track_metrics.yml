@@ -2,8 +2,8 @@ name: Track Release Downloads
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at 00:00 UTC
-  workflow_dispatch:      # Allows manual trigger
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   snapshot-metrics:
@@ -12,10 +12,22 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          ref: metrics  # Keep historical data separated from source code
+          fetch-depth: 0
+
+      - name: Switch or Create Metrics Branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # Check out remote metrics branch or create it orphan if missing
+          if git ls-remote --exit-code --heads origin metrics; then
+            git checkout metrics
+          else
+            git checkout --orphan metrics
+            git rm -rf . || true
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,14 +39,20 @@ jobs:
 
       - name: Run Tracker
         env:
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
+          # Extracts owner and repo reliably regardless of trigger event
+          GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python track_downloads.py
+        run: |
+          # Checkout track_downloads.py from the default branch if working on an orphan branch
+          git checkout origin/main -- track_downloads.py 2>/dev/null || git checkout origin/master -- track_downloads.py 2>/dev/null || true
+          python track_downloads.py
 
       - name: Commit and Push Metrics
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add metrics/release_downloads.csv
-          git diff-index --quiet HEAD || (git commit -m "Update download counts [skip ci]" && git push origin metrics)
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Update download counts [skip ci]"
+            git push origin metrics
+          else
+            echo "No changes in download counts."
+          fi
