@@ -1,40 +1,40 @@
 name: Track Release Downloads
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # Runs daily at 00:00 UTC
-  workflow_dispatch:      # Allows manual trigger
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at 00:00 UTC
+  workflow_dispatch:      # Allows manual trigger
 
 jobs:
-  snapshot-metrics:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+  snapshot-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          ref: metrics  # Keep historical data separated from source code
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: metrics  # Keep historical data separated from source code
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-      - name: Install Dependencies
-        run: pip install requests pandas
+      - name: Install Dependencies
+        run: pip install requests pandas
 
-      - name: Run Tracker
-        env:
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python track_downloads.py
+      - name: Run Tracker
+        env:
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python track_downloads.py
 
-      - name: Commit and Push Metrics
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add metrics/release_downloads.csv
-          git diff-index --quiet HEAD || (git commit -m "Update download counts [skip ci]" && git push origin metrics)
+      - name: Commit and Push Metrics
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add metrics/release_downloads.csv
+          git diff-index --quiet HEAD || (git commit -m "Update download counts [skip ci]" && git push origin metrics)
