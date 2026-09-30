@@ -12,22 +12,10 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository (main branch)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Switch or Create Metrics Branch
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          # Check out remote metrics branch or create it orphan if missing
-          if git ls-remote --exit-code --heads origin metrics; then
-            git checkout metrics
-          else
-            git checkout --orphan metrics
-            git rm -rf . || true
-          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,19 +25,27 @@ jobs:
       - name: Install Dependencies
         run: pip install requests pandas
 
+      - name: Fetch Existing Metrics Data
+        run: |
+          # Pull down existing metrics CSV if the metrics branch already has data
+          mkdir -p metrics
+          git checkout origin/metrics -- metrics/release_downloads.csv 2>/dev/null || true
+
       - name: Run Tracker
         env:
-          # Extracts owner and repo reliably regardless of trigger event
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Checkout track_downloads.py from the default branch if working on an orphan branch
-          git checkout origin/main -- track_downloads.py 2>/dev/null || git checkout origin/master -- track_downloads.py 2>/dev/null || true
-          python track_downloads.py
+        run: python track_downloads.py
 
-      - name: Commit and Push Metrics
+      - name: Push Metrics to Metrics Branch
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Temporarily switch to metrics branch, apply the new CSV, and push
+          git checkout metrics
           git add metrics/release_downloads.csv
+          
           if ! git diff-index --quiet HEAD; then
             git commit -m "Update download counts [skip ci]"
             git push origin metrics
