@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 from datetime import datetime, timezone
 
-# Defaults to GitHub's standard "owner/repo" environment variable
 REPO_FULL = os.environ.get("GITHUB_REPOSITORY", "")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 CSV_FILE = "metrics/release_downloads.csv"
