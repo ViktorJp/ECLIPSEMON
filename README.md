@@ -41,7 +41,7 @@ Enjoy the fruits of our labor! Cheers!
 
 Download link:
 
-```curl --retry 3 "https://raw.githubusercontent.com/ViktorJp/ECLIPSEMON/main/eclipsemon.sh" -o "/jffs/scripts/eclipsemon.sh" && chmod 755 "/jffs/scripts/eclipsemon.sh"```
+```curl -fsSL "https://github.com/ViktorJp/ECLIPSEMON/releases/latest/download/eclipsemon-5.21.29942.sh" -o "/jffs/scripts/eclipsemon.sh" && chmod 755 "/jffs/scripts/eclipsemon.sh"```
 
 ---
 
